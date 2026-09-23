@@ -1,0 +1,14 @@
+<section class="detalle-solicitud">
+  <a routerLink="/solicitudes" class="volver">&larr; Volver al listado</a>
+
+  <p *ngIf="cargando">Cargando…</p>
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+
+  <article *ngIf="solicitud as s" class="tarjeta-detalle">
+    <h2>{{ s.titulo }}</h2>
+    <p class="etiqueta-estado" [ngClass]="s.estado">{{ s.estado }}</p>
+    <p>{{ resumenEstudiante(s) }}</p>
+    <p class="descripcion">{{ s.descripcion }}</p>
+    <p class="fecha">Registrado: {{ s.fechaRegistro | date: 'medium' }}</p>
+  </article>
+</section>
