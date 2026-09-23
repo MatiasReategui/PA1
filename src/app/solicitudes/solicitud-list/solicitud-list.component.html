@@ -1,0 +1,37 @@
+<section class="lista-solicitudes">
+  <header class="cabecera">
+    <h2>Solicitudes académicas</h2>
+    <a routerLink="/solicitudes/nueva" class="btn-primario">+ Nueva solicitud</a>
+  </header>
+
+  <p *ngIf="cargando">Cargando solicitudes desde la API…</p>
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+
+  <div *ngIf="!cargando && !error">
+    <div class="filtros">
+      <button (click)="filtrar('Todos')" [class.activo]="filtroEstado === 'Todos'">
+        Todos ({{ todasLasSolicitudes.length }})
+      </button>
+      <button
+        *ngFor="let estado of estadosDisponibles"
+        (click)="filtrar(estado)"
+        [class.activo]="filtroEstado === estado">
+        {{ estado }} ({{ resumenPorEstado[estado] || 0 }})
+      </button>
+    </div>
+
+    <ul class="tarjetas">
+      <li
+        *ngFor="let solicitud of solicitudesVisibles"
+        [appResaltar]="'#eaf3ff'"
+        [routerLink]="['/solicitudes', solicitud.id]"
+        class="tarjeta">
+        <strong>{{ etiquetaSolicitud(solicitud) }}</strong>
+        <span class="estudiante">{{ solicitud.estudianteNombre }}</span>
+        <p class="descripcion">{{ solicitud.descripcion | slice: 0:90 }}...</p>
+      </li>
+    </ul>
+
+    <p *ngIf="solicitudesVisibles.length === 0">No hay solicitudes con este estado.</p>
+  </div>
+</section>
