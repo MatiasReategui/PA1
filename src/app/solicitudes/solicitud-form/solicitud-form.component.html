@@ -1,0 +1,48 @@
+<section class="formulario-solicitud">
+  <a routerLink="/solicitudes" class="volver">&larr; Volver al listado</a>
+  <h2>Registrar nueva solicitud</h2>
+
+  <form [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+    <div class="campo">
+      <label for="estudianteNombre">Nombre del estudiante</label>
+      <input id="estudianteNombre" type="text" formControlName="estudianteNombre" />
+      <small class="error" *ngIf="estudianteNombre?.invalid && estudianteNombre?.touched">
+        <span *ngIf="estudianteNombre?.errors?.['required']">El nombre es obligatorio.</span>
+        <span *ngIf="estudianteNombre?.errors?.['minlength']">Debe tener al menos 3 caracteres.</span>
+      </small>
+    </div>
+
+    <div class="campo">
+      <label for="tipo">Tipo de solicitud</label>
+      <select id="tipo" formControlName="tipo">
+        <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="titulo">Título</label>
+      <input id="titulo" type="text" formControlName="titulo" />
+      <small class="error" *ngIf="titulo?.invalid && titulo?.touched">
+        <span *ngIf="titulo?.errors?.['required']">El título es obligatorio.</span>
+        <span *ngIf="titulo?.errors?.['minlength']">Debe tener al menos 5 caracteres.</span>
+        <span *ngIf="titulo?.errors?.['maxlength']">No debe superar 80 caracteres.</span>
+      </small>
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" rows="4" formControlName="descripcion"></textarea>
+      <small class="error" *ngIf="descripcion?.invalid && descripcion?.touched">
+        <span *ngIf="descripcion?.errors?.['required']">La descripción es obligatoria.</span>
+        <span *ngIf="descripcion?.errors?.['minlength']">Debe tener al menos 15 caracteres.</span>
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="enviando">
+      {{ enviando ? 'Registrando…' : 'Registrar solicitud' }}
+    </button>
+
+    <p class="mensaje-exito" *ngIf="enviadoConExito">Solicitud registrada. Redirigiendo…</p>
+    <p class="mensaje-error" *ngIf="errorEnvio">{{ errorEnvio }}</p>
+  </form>
+</section>
